@@ -1,0 +1,35 @@
+Week03Lab03.
+
+	 
+For this particular exercise, Ellicott Creek below Williamsville, New York, with the drainage area of 210 sq. km was selected. The single panel plot of the Snow Water Equivalent for the Energy-Based snowmelt and Accumulation Model is shown in the separate pdf attachment. The following table shows the different SWE mean values corresponding to different slope aspect combinations. Firstly, areas with greater slope (45%) have higher mean SWE as compared to the areas with gentle slope (≤ 10%). The North facing slopes, on the other hand, tend to have higher SWE values compared to the south facing slopes. This can be attributed to the lack of direct sunlight (less solar radiation) in the north-facing slopes resulting in being cooler than the south-facing slopes. South facing slopes in the northern hemisphere (30-55 degrees latitude) receive higher solar radiation and snow tends to melt faster than the north facing slopes.
+
+	Slope-Aspect Combination	Mean SWE in mm
+1	flat slope	24.40
+2	10% North	25.83
+3	10% South	23.50
+4	45% Northwest	29.45
+5	45% Southwest	27.26
+
+	      
+6 different parameters listed in the following table were adjusted one by one to calibrate the model. The NSE value at the start of calibration (with all default parameter values) was -0.187. This suggests that our initial model was poor in terms of its predictability and should be calibrated before making any model predictions. Firstly, fcres was tweaked using a set of numbers from its minimum value “0.1” to maximum value “0.5” and setting this parameter to 0.1 gave us the best NSE value for our model. Other parameters were adjusted one by one in the similar fashion by keeping the calibrated parameter constant in each step.
+Parameter	Minimum Value	Maximum Value	Best Parameter Value	Best NSE for Value
+fcres	0.1	0.5	0.1	0.256
+SFTmp	-5	5	1	0.256
+bmlt6	1.4	7	7	0.262
+bmlt12	1.4	7	1.4	0.275
+Tlag	0	1	0.5	0.281
+AWC	150	350	150	0.293
+
+Extra Credit: 
+A south-facing slope remains cooler in the southern hemisphere because the sun stays mostly in the northern half of the sky. Hence south-facing slope would accumulate more SWE than a north-facing slope in the southern hemisphere.
+
+Graduate Student Question:
+In the article, Travis et al. (2002), reduction in daily temperature range was attributed to the absence of contrails that reduce the transfer the of incoming and outgoing infrared radiation from the atmosphere. However, the average temperature do not change much during this period. As we know that in temperature index model, we assume snowfall amount equal to the precipitation when Tavg< SFTmp, and so the average temperature would most likely affect the outcome of this model. On the other hand, Energy based model is highly dependent on the max and minimum temperature as given in equation:
+SNO_Energy=SnowMelt(date, P, MaxTemp-3, MinTemp-3, myflowgage$declat, 
+  slope = 0,aspect = 0, tempHt = 1, windHt = 2, groundAlbedo = 0.25,
+  SurfEmissiv = 0.95, windSp = 2, forest = 0, startingSnowDepth_m = 0,
+  startingSnowDensity_kg_m3=450)
+
+In the case of Priestly-Taylor PET estimation, we have:
+PET=PET_fromTemp(Jday=(1+as.POSIXlt(date)$yday),Tmax_C = MaxTemp,Tmin_C = MinTemp,albedo=Albedo,lat_radians = myflowgage$declat*pi/180) * 1000
+From the above equations, it seems that max and minimum temperature largely affects the results of PET and energy-based models.  Hence, removing air travel would likely affect the results of energy based and PET model; however, the overall effect would depend on other factors like slope-aspect combination, latitude, etc. as well.
